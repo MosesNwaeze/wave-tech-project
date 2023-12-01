@@ -45,10 +45,7 @@ function LoginComponent(props) {
                     "Content-Type": "application/json"
                }
             });
-
-            const token = response.data.data.token;
-            const emai = response.data.data.email;
-            setAuth({...data,email: emai,token,rememberMe})
+            setAuth((prev)=>({...prev,email: response.data.data?.email,token: response.data.data?.token,rememberMe}));
             navigate("/");
         }catch(error){
             console.log(error.message)

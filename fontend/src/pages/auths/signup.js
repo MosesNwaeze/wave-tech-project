@@ -15,7 +15,7 @@ function SignupComponent(props) {
     const [confirmPassword,setConfirmPassword] = useState("");
     const [passwordType, setPasswordType] = useState("password");
     const [password, setPassword] = useState("");
-    const appContext = useContext(AppContext);
+    const [userData,userAction] = useContext(AppContext);
     const navigate = useNavigate();
 
 
@@ -56,9 +56,7 @@ function SignupComponent(props) {
             try{
                 const response = await axios
                     .post("http://localhost:5000/api/v1/register", {email,password});
-                const token = response?.data?.token;
-                const emai = response?.data?.email;
-                appContext[1]({token,email: emai});
+                userAction((prev)=>({...prev,email:response.data.data?.email,token: response.data.data?.token}));
                 navigate("/");
             }catch(error){
                 console.log(error)

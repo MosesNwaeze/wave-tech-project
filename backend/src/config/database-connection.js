@@ -1,9 +1,11 @@
 const {Sequelize} = require("sequelize");
+require("dotenv").config();
 
+console.log(process.env.NODE_ENV)
 
 const sequelize = new Sequelize('wave-tech-db', 'root', 'root', {
     dialect: 'mysql',
-    host: "database",
+    host: "localhost", //database
     operatorAlias:false,
     logging:false,
     port:3306,

@@ -20,13 +20,18 @@ const signup = async (req,res)=>{
             }
 
           const newUser =   await UserModel.create(userData);
-          const token = jwt.sign({email},process.env.JWT_SECRETE,{expiresIn: "72h"});
 
-            if(newUser){
-               return res.status(200).json({data:{email,token}});
-            }else{
-                return res.status(500).json("Internal Server Error");
+            try {
+                const token = jwt.sign({email},process.env.JWT_SECRETE,{expiresIn: "72h"});
+
+                if(newUser){
+                    return res.status(200).json({data:{email,token}});
+                }
+            }catch (e){
+                console.log(e);
+                return  res.status(500).json(e.message);
             }
+
 
         })
         .catch((error)=> console.log(error));

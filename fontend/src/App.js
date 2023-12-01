@@ -26,14 +26,11 @@ function App() {
             localStorage.setItem("token",authenticateUser.token);
             localStorage.setItem("email", authenticateUser.email);
         }
-    }, [authenticateUser,setAuthenticateUser]);
+    }, [authenticateUser.email,authenticateUser.token,authenticateUser.rememberMe]);
 
   return (
 
      <AppContext.Provider value={[authenticateUser,setAuthenticateUser]}>
-
-
-
              <Router>
                  <Routes>
                      <Route element={<LoginComponent/>} path="login"/>
@@ -52,8 +49,6 @@ function App() {
 
                  </Routes>
              </Router>
-
-
      </AppContext.Provider>
   );
 }
