@@ -1,0 +1,82 @@
+
+.search input{
+  width: 90%;
+    padding: 5px;
+    background-color: #F9FAFB;
+}
+
+.search{
+    background-color: #F9FAFB;
+}
+
+.search input:focus{
+    outline: none;
+}
+
+.notice{
+    background-color: #F0F2F5;
+    width: 30px;
+    height: 30px;
+}
+
+.find-hospital-btn{
+    background-color: #EB5017;
+    outline: none;
+    border: none;
+    padding: 5px 10px;
+    color: #ffff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.find-hospital-btn:hover{
+    background-color: #e89476;
+}
+
+.content-area{
+    background-color: #F8F9FA;
+    width: 100%;
+    padding: 10px;
+}
+
+.activity{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F0F2F5;
+    cursor: pointer;
+    padding: 8px 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.activity:focus{
+    background-color: #e89476;
+}
+
+.item{
+    font-weight: normal;
+    font-size: small;
+}
+
+.icon{
+    margin-top: -3px;
+}
+
+.user-event{
+    outline: none;
+    border: none;
+    width: 4rem;
+    background-color: #F8F9FA;
+
+}
+
+.user-event:focus{
+    outline: none;
+
+}
+
+.active-x{
+    background-color: #e89476;
+}
