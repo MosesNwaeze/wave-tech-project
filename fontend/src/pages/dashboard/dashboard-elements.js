@@ -31,15 +31,12 @@ function DashboardComponents(props) {
         const email = userData.email;
         const token = userData.token;
 
-        if(email === "" && token === ""){
+        if(!email && !token){
             navigate("/login")
+        }else{
+            navigate("/hospitals");
         }
 
-
-    },[pathname,userData.email,userData.token,navigate,])
-
-    useEffect(()=>{
-        navigate("/hospitals")
     },[])
 
     const activeTab = (path) => {

@@ -7,6 +7,7 @@ import {AiOutlineEyeInvisible} from "react-icons/ai";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import AppContext from "../../utils/app-context";
+import {MdOutlineVisibility} from "react-icons/md";
 
 function LoginComponent(props) {
     const [isShowPasswordOn, setIsShowPasswordOn] = useState(false);
@@ -19,19 +20,14 @@ function LoginComponent(props) {
     const [data,setAuth] = appContext;
 
 
-    const showPassword = (event)=>{
+    const setPasswordHidden = () => {
+        setPasswordType("text");
+        setIsShowPasswordOn(true)
+    }
 
-        if(isShowPasswordOn){
-            event.target.classList.add("orange");
-            setIsShowPasswordOn(false);
-            setPasswordType("text");
-        }else{
-            event.target.classList.remove("orange");
-            setIsShowPasswordOn(true);
-            setPasswordType("password");
-        }
-
-
+    const setPasswordShow = () =>{
+        setPasswordType("password");
+        setIsShowPasswordOn(false);
     }
 
 
@@ -52,7 +48,7 @@ function LoginComponent(props) {
 
             const token = response.data.data.token;
             const emai = response.data.data.email;
-            setAuth({email: emai,token,rememberMe})
+            setAuth({...data,email: emai,token,rememberMe})
             navigate("/");
         }catch(error){
             console.log(error.message)
@@ -63,7 +59,7 @@ function LoginComponent(props) {
 
     useEffect(()=>{
         if(rememberMe){
-          setAuth({rememberMe: true});
+          setAuth({...data,rememberMe: true});
         }
     },[rememberMe])
 
@@ -73,6 +69,13 @@ function LoginComponent(props) {
             navigate("/")
         }
     },[data])
+
+
+
+    const visibilityElement = isShowPasswordOn?
+        (<span className="text-end visible" onClick={setPasswordShow}><MdOutlineVisibility fontSize="20" /></span>):
+        (    <span className="text-end visible" onClick={setPasswordHidden}><AiOutlineEyeInvisible fontSize="20"/></span>);
+
     return (
         <div className="text-center main-auth-container">
 
@@ -104,6 +107,7 @@ function LoginComponent(props) {
                                     className="border-0 m-0 w-100"
                                     defaultValue={email}
                                     onChange={(event)=>{setEmail(event.target.value)}}
+                                   autoComplete="email"
                                 />
                                 <span className="text-end"><CiMail fontSize="20"/></span>
                             </div>
@@ -120,8 +124,12 @@ function LoginComponent(props) {
                                     className="border-0 m-0 w-100"
                                     defaultValue={password}
                                     onChange={(event)=>{setPassword(event.target.value)}}
+                                    autoComplete="password"
                                 />
-                                <span className="text-end"><AiOutlineEyeInvisible className="visible" onClick={showPassword} fontSize="20"/></span>
+
+                                {
+                                    visibilityElement
+                                }
                             </div>
 
                         </div>

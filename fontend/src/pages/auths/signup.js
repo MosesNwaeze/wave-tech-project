@@ -1,13 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import AppContext from "../../utils/app-context";
 import {NavLink, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {IoIosPulse} from "react-icons/io";
 import {CiMail} from "react-icons/ci";
 import {AiOutlineEyeInvisible} from "react-icons/ai";
+import {MdOutlineVisibility} from "react-icons/md";
 
 function SignupComponent(props) {
     const [isShowPasswordOn, setIsShowPasswordOn] = useState(false);
+    const [isShowPasswordOnConfirm, setIsShowPasswordOnConfirm] = useState(false);
+    const [passTypeConfirm, setPasswordTypeConfirm] = useState("password")
     const [email, setEmail] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
     const [passwordType, setPasswordType] = useState("password");
@@ -16,32 +19,36 @@ function SignupComponent(props) {
     const navigate = useNavigate();
 
 
-    const showPassword = (event)=>{
-
-        if(isShowPasswordOn){
-            event.target.classList.add("orange");
-            setIsShowPasswordOn(false);
-            setPasswordType("text");
-        }else{
-            event.target.classList.remove("orange");
-            setIsShowPasswordOn(true);
-            setPasswordType("password");
-        }
-
-
+    const setPasswordHidden = () => {
+        setPasswordType("text");
+        setIsShowPasswordOn(true)
     }
 
-    useEffect(()=>{
-        const visible = document.querySelector(".visible");
-        if(isShowPasswordOn){
-            visible.addEventListener("click", function (){
+    const setPasswordShow = () =>{
+        setPasswordType("password");
+        setIsShowPasswordOn(false);
+    }
 
-                this.classList.add("orange")
-            })
-        }else{
-            visible.classList.remove("orange")
-        }
-    })
+
+    const setPasswordConfirmHidden = () => {
+        setPasswordTypeConfirm("text");
+        setIsShowPasswordOnConfirm(true)
+    }
+
+    const setPasswordConfirmShow = () =>{
+        setPasswordTypeConfirm("password");
+        setIsShowPasswordOnConfirm(false);
+    }
+
+
+    const visibilityElement = isShowPasswordOn?
+        (<span className="text-end visible" onClick={setPasswordShow}><MdOutlineVisibility fontSize="20" /></span>):
+        (    <span className="text-end visible" onClick={setPasswordHidden}><AiOutlineEyeInvisible fontSize="20"/></span>);
+
+    const visibilityConfirmElement = isShowPasswordOnConfirm?
+        (<span className="text-end visible" onClick={setPasswordConfirmShow}><MdOutlineVisibility fontSize="20" /></span>):
+        (    <span className="text-end visible" onClick={setPasswordConfirmHidden}><AiOutlineEyeInvisible fontSize="20"/></span>);
+
 
     const handleSignup = async (event) =>{
         event.preventDefault();
@@ -95,7 +102,7 @@ function SignupComponent(props) {
                                     className="border-0 m-0 w-100"
                                     value={email}
                                     onChange={(event)=>{setEmail(event.target.value)}}
-
+                                    autoComplete="email"
                                 />
                                 <span className="text-end"><CiMail fontSize="20"/></span>
                             </div>
@@ -112,8 +119,11 @@ function SignupComponent(props) {
                                     className="border-0 m-0 w-100"
                                     value={password}
                                     onChange={(event)=>{setPassword(event.target.value)}}
+                                    autoComplete="password"
                                 />
-                                <span className="text-end"><AiOutlineEyeInvisible className="visible" onClick={showPassword} fontSize="20"/></span>
+                                {
+                                    visibilityElement
+                                }
                             </div>
 
                         </div>
@@ -123,14 +133,15 @@ function SignupComponent(props) {
                             <label htmlFor="password" className="form-label text-start w-100 fw-bold">Confirmed Password</label>
                             <div className="bg-white p-2 text-start d-flex justify-content-between input">
                                 <input
-                                    type={passwordType}
+                                    type={passTypeConfirm}
                                     id="confirmPassword"
                                     placeholder="Confirm password"
                                     className="border-0 m-0 w-100"
                                     value={confirmPassword}
                                     onChange={(event)=>{setConfirmPassword(event.target.value)}}
+                                    autoComplete="password"
                                 />
-                                {/*<span className="text-end"><AiOutlineEyeInvisible className="visible" onClick={showPassword} fontSize="20"/></span>*/}
+                                {visibilityConfirmElement}
                             </div>
 
                         </div>
